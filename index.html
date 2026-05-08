@@ -281,11 +281,11 @@ margin-right: 6px;
 /* ── CONTENTEDITABLE TEXT INPUTS ── */
 .text-input {
 width: 100%;
-min-height: 46px;
-background: #1A3A6B !important;
-border: 1.5px solid rgba(255,255,255,0.5) !important;
-border-radius: 3px;
-color: #FFFFFF !important;
+min-height: 48px;
+background: #FFFFFF !important;
+border: 2px solid #FF6B1A !important;
+border-radius: 4px;
+color: #0A1628 !important;
 font-family: ‘Sarabun’, sans-serif;
 font-size: 15px;
 padding: 12px 16px;
@@ -296,16 +296,16 @@ cursor: text;
 
 .text-input:empty::before {
 content: attr(data-placeholder);
-color: rgba(255,255,255,0.45);
+color: rgba(10,22,40,0.4);
 pointer-events: none;
 }
 
 .text-input:focus {
 border-color: #FF6B1A !important;
-box-shadow: 0 0 0 3px rgba(255,107,26,0.15);
+box-shadow: 0 0 0 3px rgba(255,107,26,0.2);
 }
 
-/* ── INPUTS ── */
+/* ── INPUTS (select, textarea) ── */
 input[type=“text”],
 select,
 textarea {
