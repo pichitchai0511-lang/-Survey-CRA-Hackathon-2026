@@ -278,15 +278,45 @@ font-size: 12px;
 margin-right: 6px;
 }
 
+/* ── CONTENTEDITABLE TEXT INPUTS ── */
+.text-input {
+width: 100%;
+min-height: 46px;
+background: #1A3A6B !important;
+border: 1.5px solid rgba(255,255,255,0.5) !important;
+border-radius: 3px;
+color: #FFFFFF !important;
+font-family: ‘Sarabun’, sans-serif;
+font-size: 15px;
+padding: 12px 16px;
+outline: none;
+line-height: 1.5;
+cursor: text;
+}
+
+.text-input:empty::before {
+content: attr(data-placeholder);
+color: rgba(255,255,255,0.45);
+pointer-events: none;
+}
+
+.text-input:focus {
+border-color: #FF6B1A !important;
+box-shadow: 0 0 0 3px rgba(255,107,26,0.15);
+}
+
 /* ── INPUTS ── */
 input[type=“text”],
 select,
 textarea {
 width: 100%;
 background: #1A2F50 !important;
+-webkit-appearance: none !important;
+appearance: none !important;
 border: 1.5px solid rgba(255,255,255,0.4) !important;
 border-radius: 3px;
 color: #FFFFFF !important;
+-webkit-text-fill-color: #FFFFFF !important;
 font-family: ‘Sarabun’, sans-serif;
 font-size: 14px;
 padding: 12px 16px;
@@ -303,9 +333,20 @@ background: rgba(255,107,26,0.06);
 box-shadow: 0 0 0 3px rgba(255,107,26,0.1);
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+-webkit-box-shadow: 0 0 0px 1000px #1A2F50 inset !important;
+-webkit-text-fill-color: #FFFFFF !important;
+caret-color: #FFFFFF;
+}
+
 input[type=“text”]::placeholder,
 textarea::placeholder {
 color: rgba(255,255,255,0.6) !important;
+-webkit-text-fill-color: rgba(255,255,255,0.6) !important;
 }
 
 select {
@@ -689,13 +730,13 @@ transform: translateY(0);
 <!-- Q1 -->
 <div class="q-block">
   <label class="q-label"><span class="q-num">01</span> ชื่อ – นามสกุล</label>
-  <input type="text" placeholder="กรอกชื่อ-นามสกุลของคุณ" required>
+  <div class="text-input" id="input-name" contenteditable="true" data-placeholder="กรอกชื่อ-นามสกุลของคุณ"></div>
 </div>
 
 <!-- Q2 -->
 <div class="q-block">
   <label class="q-label"><span class="q-num">02</span> หลักสูตร / สาขา</label>
-  <select required>
+  <select id="input-program" required>
     <option value="" disabled selected>-- เลือกหลักสูตร / สาขา --</option>
     <option>แพทยศาสตร์</option>
     <option>นวัตกรรมวิทยาศาสตร์การแพทย์</option>
@@ -720,7 +761,7 @@ transform: translateY(0);
 <!-- Q4 -->
 <div class="q-block">
   <label class="q-label"><span class="q-num">04</span> ช่องทางติดต่อ <span style="color:var(--muted);font-weight:400">(LINE / IG / เบอร์โทร)</span></label>
-  <input type="text" placeholder="เช่น LINE: @username / IG: @handle / 08x-xxx-xxxx">
+  <div class="text-input" id="input-contact" contenteditable="true" data-placeholder="เช่น LINE: @username / IG: @handle / 08x-xxx-xxxx"></div>
 </div>
 
 <!-- SECTION 2 -->
@@ -867,10 +908,10 @@ transform: translateY(0);
   function handleSubmit() {
     const btn = document.querySelector('.btn-submit');
 
-    const name           = document.querySelectorAll('input[type="text"]')[0].value.trim();
-    const program        = document.querySelector('select').value;
+    const name           = document.getElementById('input-name').innerText.trim();
+    const program        = document.getElementById('input-program').value;
     const year           = document.querySelector('input[name="year"]:checked')?.value || '';
-    const contact        = document.querySelectorAll('input[type="text"]')[1].value.trim();
+    const contact        = document.getElementById('input-contact').innerText.trim();
     const interest       = document.querySelector('input[name="interest"]:checked')?.value || '';
     const roles          = [...document.querySelectorAll('input[name="role"]:checked')].map(i=>i.value).join(', ');
     const domains        = [...document.querySelectorAll('input[name="domain"]:checked')].map(i=>i.value).join(', ');
