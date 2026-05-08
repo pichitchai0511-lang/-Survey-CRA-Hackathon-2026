@@ -24,12 +24,23 @@
 
 - { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-background: var(–navy);
-color: var(–white);
+html, body {
+background: #0A1628 !important;
+background-color: #0A1628 !important;
+color: #FFFFFF !important;
 font-family: ‘Sarabun’, sans-serif;
 min-height: 100vh;
 overflow-x: hidden;
+}
+
+/* Force all text white */
+body, body * {
+color: inherit;
+}
+
+.q-label, .choice-label, .announce-lead, .perk-item,
+.section-title, .footer-thanks {
+color: #FFFFFF !important;
 }
 
 /* ── GRID BACKGROUND ── */
@@ -235,7 +246,7 @@ white-space: nowrap;
 font-family: ‘Sarabun’, sans-serif;
 font-weight: 700;
 font-size: 18px;
-color: var(–white);
+color: #FFFFFF !important;
 letter-spacing: 0.5px;
 }
 
@@ -307,7 +318,7 @@ padding-right: 40px;
 
 select option {
 background: var(–navy-mid);
-color: var(–white);
+color: #FFFFFF !important;
 }
 
 textarea {
@@ -482,7 +493,7 @@ gap: 6px;
 font-family: ‘Bebas Neue’, sans-serif;
 font-size: 26px;
 letter-spacing: 3px;
-color: var(–white);
+color: #FFFFFF !important;
 }
 
 .footer-logo span { color: var(–orange); }
@@ -543,7 +554,7 @@ animation: popIn 0.4s ease both;
 font-family: ‘Bebas Neue’, sans-serif;
 font-size: 40px;
 letter-spacing: 2px;
-color: var(–white);
+color: #FFFFFF !important;
 }
 
 .success-msg {
