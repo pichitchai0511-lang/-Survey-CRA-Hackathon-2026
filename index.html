@@ -903,9 +903,10 @@ transform: translateY(0);
   document.querySelectorAll('.q-block, .section-header').forEach(el => observer.observe(el));
 
   // ── Submit ──
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfdfTe4_TMZHeyUcHmNbLq5xsCDpwSYieOiavHtnLhzv4d0rnSBCqMysGN8Z9Sesc/exec';
+  const SUPABASE_URL = 'https://amarpyxbzdpwwemwcpii.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtYXJweXhiemRwd3dlbXdjcGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzOTk0NzMsImV4cCI6MjA5Mzk3NTQ3M30.ZvNYUClBDNfEpYI1ftk9mhpwzbBuYXsa7Wx6igId9PU';
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const btn = document.querySelector('.btn-submit');
 
     const name           = document.getElementById('input-name').innerText.trim();
@@ -926,19 +927,33 @@ transform: translateY(0);
     btn.textContent = 'กำลังส่ง...';
     btn.disabled = true;
 
-    const params = new URLSearchParams({
-      name, program, year, contact, interest, roles,
-      domains, experience, expectation, futureOrganize, suggestions
-    });
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/survey_responses`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name, program, year, contact, interest,
+          roles, domains, experience, expectation,
+          future_organize: futureOrganize, suggestions
+        })
+      });
 
-    // เปิด tab ใหม่ส่งข้อมูล แล้วปิดอัตโนมัติหลัง 3 วินาที
-    const newTab = window.open(APPS_SCRIPT_URL + '?' + params.toString(), '_blank');
-    setTimeout(() => {
-      try { newTab.close(); } catch(e) {}
-      document.getElementById('successOverlay').classList.add('show');
-      btn.innerHTML = 'ส่งแบบสอบถาม <span class="btn-arrow">→</span>';
-      btn.disabled = false;
-    }, 3000);
+      if (res.ok || res.status === 201) {
+        document.getElementById('successOverlay').classList.add('show');
+      } else {
+        throw new Error('Submit failed');
+      }
+    } catch (err) {
+      alert('เกิดข้อผิดพลาด กรุณาลองใหม่ครับ');
+    }
+
+    btn.innerHTML = 'ส่งแบบสอบถาม <span class="btn-arrow">→</span>';
+    btn.disabled = false;
   }
 
   document.getElementById('successOverlay').addEventListener('click', function() {
